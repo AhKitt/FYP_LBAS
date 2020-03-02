@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lbas_advertiser/adsdetail.dart';
+import 'package:lbas_advertiser/advertisement.dart';
 import 'package:lbas_advertiser/advertiser.dart';
 import 'package:lbas_advertiser/loginscreen.dart';
 import 'package:lbas_advertiser/page1.dart';
@@ -86,7 +88,21 @@ class _MainScreenState extends State<MainScreen> {
                   child: Card(
                     elevation: 2,
                     child: InkWell(
-                      onTap: (){},
+                      onTap: () => _onAdsDetail(
+                            (data[index]['adsid']).toString(),
+                            data[index]['title'],
+                            data[index]['description'],
+                            data[index]['adsimage'],
+                            data[index]['address'],
+                            data[index]['radius'],
+                            (data[index]['lat'].toString()),
+                            (data[index]['lng'].toString()),
+                            data[index]['status'],
+                            data[index]['period'],
+                            data[index]['postdate'],
+                            data[index]['duedate'],
+                            data[index]['advertiser'],
+                          ),
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: Row(
@@ -212,13 +228,17 @@ class _MainScreenState extends State<MainScreen> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[
                                           Container(
-                                            color: Colors.green,
+                                            decoration: new BoxDecoration(
+                                              color: Color.fromRGBO(59, 255, 98, 1),
+                                              border: Border.all(color: Colors.black12, width: 2.0)
+                                            ),          
                                             padding: EdgeInsets.only(left: 3.0, right: 3.0),
                                             child: Text(
                                               data[index]['status']
                                                       .toString(),
                                               style: TextStyle(
                                                   fontSize: 16,
+                                                  fontWeight: FontWeight.bold
                                               ),
                                             ),
                                           ),
@@ -303,7 +323,6 @@ class _MainScreenState extends State<MainScreen> {
       currentAccountPicture: CircleAvatar(
         backgroundImage: NetworkImage(
           "http://mobilehost2019.com/LBAS/profile/${widget.advertiser.email}.jpg"),
-        // backgroundImage: AssetImage('assets/images/download2.jpg'),
       ),
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -328,7 +347,6 @@ class _MainScreenState extends State<MainScreen> {
       setState(() {
         var extractdata = json.decode(res.body);
         data = extractdata["ads"];
-        perpage = (data.length / 10);
         print("data");
         print(data);
         pr.dismiss();
@@ -349,5 +367,37 @@ class _MainScreenState extends State<MainScreen> {
     await Future.delayed(Duration(seconds: 2));
     this.makeRequest();
     return null;
+  }
+
+  void _onAdsDetail(
+      String adsid,
+      String title,
+      String description,
+      String adsimage,
+      String address,
+      String radius,
+      String lat,
+      String lng,
+      String status,
+      String period,
+      String postdate,
+      String duedate,
+      String advertiser) {
+
+    Advertisement advertisement = new Advertisement(
+        adsid: adsid,
+        title: title,
+        description: description,
+        adsimage: adsimage,
+        address: address,
+        radius: radius,
+        lat: lat,
+        lng: lng,
+        status: status,
+        period: period,
+        postdate: postdate,
+        duedate: duedate,
+        advertiser: advertiser);
+    Navigator.push(context, MaterialPageRoute(builder: (contex)=>AdsDetail(advertisement: advertisement, advertiser:widget.advertiser)));
   }
 }

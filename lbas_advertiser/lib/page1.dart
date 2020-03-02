@@ -71,7 +71,6 @@ class _Page1State extends State<Page1> {
                                             fit: BoxFit.cover,
                                             image: new NetworkImage(
                                                 "http://mobilehost2019.com/LBAS/profile/${widget.advertiser.email}.jpg?dummy=${(number)}'")
-                                            //image: new AssetImage("assets/images/download2.jpg")
                               )))),
                               SizedBox(height: 5),
                               Container(

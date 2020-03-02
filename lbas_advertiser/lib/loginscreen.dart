@@ -15,7 +15,6 @@ final TextEditingController _emcontroller = TextEditingController();
 String _email = "";
 final TextEditingController _passcontroller = TextEditingController();
 String _password = "";
-bool _isEmpty = true;
 bool _isChecked = false;
 Advertiser advertiser;
 
@@ -54,8 +53,8 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.asset(
-                  'assets/images/lbas.jpg',
-                  scale: 3.5,
+                  'assets/images/logo6.JPG',
+                  scale: 1.5,
                 ),
                 TextField(
                     controller: _emcontroller,

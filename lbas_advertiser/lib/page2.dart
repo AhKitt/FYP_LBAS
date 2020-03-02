@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:lbas_advertiser/advertisement.dart';
 import 'package:lbas_advertiser/advertiser.dart';
+import 'package:lbas_advertiser/chooselocationscreen.dart';
 import 'package:lbas_advertiser/loginscreen.dart';
 import 'package:lbas_advertiser/mainscreen.dart';
 import 'package:toast/toast.dart';
@@ -18,12 +20,16 @@ String pathAsset = 'assets/images/upload.jpg';
 String urlUpload = "http://mobilehost2019.com/LBAS/php/upload_ads.php";
 String urlgetuser = "http://mobilehost2019.com/LBAS/php/get_user.php";
 
+//changlun = 6.4318, 100.4300
+//kachi = 6.439573, 100.529638
+
 final TextEditingController _titlecontroller = TextEditingController();
 final TextEditingController _desccontroller = TextEditingController();
 final TextEditingController _addcontroller = TextEditingController();
 final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 String _title, _description, _radius, _latitude, _longitude; 
-double _sliderValue = 5;
+double _sliderValue;
+double _zoom;
 String _currentAddress = "Searching your current location...";
 
 class Page2 extends StatefulWidget {
@@ -41,6 +47,7 @@ class _Page2State extends State<Page2> {
   Widget _myMap;
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _period;
+  bool showCircle = false;
   
 
   @override
@@ -49,6 +56,7 @@ class _Page2State extends State<Page2> {
     super.initState();
     print("below here is Page2");
     _sliderValue = 5.0;
+    _zoom = 11.5;
     _getCurrentLocation();
     print("latitude: $position.latitude");
     print("latitude: $position.longitude");
@@ -74,8 +82,8 @@ class _Page2State extends State<Page2> {
               GestureDetector(
                 onTap: _choose,
                 child: Container(
-                  width: 280,
-                  height: 250,
+                  width: 220,
+                  height: 280,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                     image:
@@ -153,9 +161,15 @@ class _Page2State extends State<Page2> {
                         Slider(
                           activeColor: Colors.indigoAccent,
                           min: 5.0,
-                          max: 50.0,
+                          max: 30.0,
                           onChanged: (newRating) {
-                            setState(() => _sliderValue = newRating);
+                            setState(() {
+                              _sliderValue = newRating;
+                              _zoom = (11.5-((_sliderValue-5)*0.06));
+                              _myMap = mapWidget(_sliderValue, _zoom);
+                              print("This is zoom");
+                              print(_zoom);
+                            });
                           },
                           value: _sliderValue,
                         ),
@@ -191,11 +205,18 @@ class _Page2State extends State<Page2> {
                     SizedBox(height: 10.0),
                     Center(
                       child: Container(
-                          height: 180,
-                          width: 350,
+                          height: MediaQuery.of(context).size.width*0.7,
+                          width: MediaQuery.of(context).size.width-20,
                           child: _myMap, //googleMap here
                         ),
                     ),
+                    SizedBox(height: 15.0),
+                    Center(
+                      child: MaterialButton(
+                        child: Text("Click to choose location"),
+                        onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseLocationScreen()),
+                      );}
+                    ),),
                     SizedBox(height: 15.0),
                     Row(
                       children: <Widget>[
@@ -354,45 +375,56 @@ class _Page2State extends State<Page2> {
 
   //----------------------------------Below here are google map method----------------------------------
 
-  Widget mapWidget(){
-    Set<Circle> circles = Set.from([Circle(
-    circleId: CircleId("myCircle"),
-    center: LatLng(position.latitude, position.longitude),
-    radius: _sliderValue*1000,
-  )]);
-
+  Widget mapWidget(double radius, double zoom){
     return GoogleMap(
+      zoomGesturesEnabled: true,
+      tiltGesturesEnabled: false,
       mapType: MapType.hybrid,
       markers: _createMarker(),
-      circles: _createCircle(),
+      circles: _createCircle(radius),
       initialCameraPosition: CameraPosition(
         target: LatLng(position.latitude, position.longitude),
-        zoom: 12.0,
+        zoom: zoom,//8.5, //higher number,more zoom in 11.5-((5-((radius).round))*0.06)
       ),
       onMapCreated: (GoogleMapController controller){
         _controller = controller;
       },
     );
+    
   }
 
   Set<Marker> _createMarker(){
     return <Marker>[
       Marker(
-        //draggable: true,
+        onTap: (){
+          showCircle=_showCircle();
+        },
+        draggable: false,
+        onDragEnd: ((value){
+          print("${value.latitude}" + "${value.longitude}");
+          setState(() {
+            position = value as Position;
+          });
+        }),
         markerId: MarkerId("myLocation"),
         position: LatLng(position.latitude, position.longitude),
         icon: BitmapDescriptor.defaultMarker,
-        infoWindow: InfoWindow(title: "$position"),
+        infoWindow: InfoWindow(title: "You are here"),
       )
     ].toSet();
   }
 
-  Set<Circle> _createCircle(){
+  bool _showCircle(){
+    return showCircle?true:false;
+  }
+
+  Set<Circle> _createCircle(double radius){ 
     return <Circle>[
       Circle(
+        visible: true,
         circleId: CircleId("myRadius"),
         center: LatLng(position.latitude, position.longitude),
-        radius: 500, //in meter
+        radius: radius*1000, //in meter
         strokeColor: Colors.blue,
         strokeWidth: 5,
         fillColor: Colors.blue.withOpacity(0.5),
@@ -404,7 +436,7 @@ class _Page2State extends State<Page2> {
     Position res = await Geolocator().getCurrentPosition();
     setState((){
       position = res;
-      _myMap = mapWidget();
+      _myMap = mapWidget(_sliderValue, _zoom);
     });
     _getAddressFromLatLng();
   }

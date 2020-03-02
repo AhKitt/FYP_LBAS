@@ -46,8 +46,12 @@ dev_dependencies:
   location: ^2.3.5
   flutter_spinkit: ^3.1.0
   flutter_launcher_icons: "^0.7.3"
+  build_runner: ^1.6.2
 
-
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/images/logo6.JPG"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
