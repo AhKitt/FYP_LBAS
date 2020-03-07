@@ -13,8 +13,10 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="ViewAd"
+        android:label="ViewAd_Advertiser"
+        android:usesCleartextTraffic="true" 
         android:icon="@mipmap/launcher_icon">
+        <!-- android:usesCleartextTraffic="true" // permission for webview -->
         
         <!-- Google Maps Plugin for android -->
         <meta-data android:name="com.google.android.geo.API_KEY"

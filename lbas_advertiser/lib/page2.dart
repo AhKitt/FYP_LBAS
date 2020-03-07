@@ -70,6 +70,7 @@ class _Page2State extends State<Page2> {
     return WillPopScope(
       onWillPop: _onBackPressAppBar,
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
             title: Text('Advertise Advertisement'),
             backgroundColor: Colors.blueAccent,
@@ -120,14 +121,14 @@ class _Page2State extends State<Page2> {
                     ),
                     SizedBox(height: 2.0),
                     TextField(
+                      // autofocus: false,
                       controller: _desccontroller,
                       keyboardType: TextInputType.multiline,    
                       maxLines: 5, 
                       scrollPadding: EdgeInsets.all(20.0),
-                      //autofocus: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          
+
                         )
                       ),
                     ),
@@ -137,7 +138,8 @@ class _Page2State extends State<Page2> {
                     ),
                     TextField(
                       controller: _addcontroller,
-                      keyboardType: TextInputType.text,     
+                      keyboardType: TextInputType.text,
+                      // autofocus: false,     
                     ),
                     Divider(thickness: 2.0, height: 50,),
                     // SizedBox(height: 20.0),
@@ -211,13 +213,13 @@ class _Page2State extends State<Page2> {
                         ),
                     ),
                     SizedBox(height: 15.0),
-                    Center(
-                      child: MaterialButton(
-                        child: Text("Click to choose location"),
-                        onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseLocationScreen()),
-                      );}
-                    ),),
-                    SizedBox(height: 15.0),
+                    // Center(
+                    //   child: MaterialButton(
+                    //     child: Text("Click to choose location"),
+                    //     onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseLocationScreen()),
+                    //   );}
+                    // ),),
+                    // SizedBox(height: 15.0),
                     Row(
                       children: <Widget>[
                         Text("Period : ",
@@ -231,7 +233,7 @@ class _Page2State extends State<Page2> {
                           ),
                           value: _period,
                           items: _dropDownMenuItems,
-                          onChanged: changedDropDownItem,
+                          onChanged: _changedDropDownItem,
                         ),
                       ],
                     ), 
@@ -376,6 +378,7 @@ class _Page2State extends State<Page2> {
   //----------------------------------Below here are google map method----------------------------------
 
   Widget mapWidget(double radius, double zoom){
+    double zoomCam = 11.5-(radius*0.06);
     return GoogleMap(
       zoomGesturesEnabled: true,
       tiltGesturesEnabled: false,
@@ -384,7 +387,7 @@ class _Page2State extends State<Page2> {
       circles: _createCircle(radius),
       initialCameraPosition: CameraPosition(
         target: LatLng(position.latitude, position.longitude),
-        zoom: zoom,//8.5, //higher number,more zoom in 11.5-((5-((radius).round))*0.06)
+        zoom: zoomCam,//zoom,//8.5, //higher number,more zoom in 11.5-((5-((radius).round))*0.06)
       ),
       onMapCreated: (GoogleMapController controller){
         _controller = controller;
@@ -473,7 +476,7 @@ class _Page2State extends State<Page2> {
     return items;
   }
 
-  void changedDropDownItem(String selectedItem) {
+  void _changedDropDownItem(String selectedItem) {
     setState(() {
       _period = selectedItem;
     });

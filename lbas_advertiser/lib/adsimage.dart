@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lbas_advertiser/adsdetail.dart';
 import 'package:lbas_advertiser/advertisement.dart';
 
 class AdsImage extends StatefulWidget {
@@ -15,8 +14,6 @@ class _AdsImageState extends State<AdsImage>{
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: Container(
@@ -42,7 +39,13 @@ class _AdsImageState extends State<AdsImage>{
               ),
             ),
             SizedBox(height: 30.0),
-            OutlineButton(onPressed: ()=> Navigator.of(context).pop())
+            OutlineButton(
+              child: Icon(
+                Icons.clear,
+                color: Colors.grey,
+            ),
+              onPressed: ()=> Navigator.of(context).pop()
+            )
           ]
         ),
       )

@@ -44,135 +44,111 @@ class _Page1State extends State<Page1> {
             title: Text('MANAGE PROFILE'),
           ),
           resizeToAvoidBottomPadding: false,
-          body: ListView.builder(
-              //Step 6: Count the data
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return Container(
-                    color: Colors.blue[100],
-                    child: Column(
-                      children: <Widget>[
-                        Stack(children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height: 5,
-                              ),
-                              GestureDetector(
-                                onTap: _takePicture,
-                                child: Container(
-                                    width: 150.0,
-                                    height: 150.0,
-                                    decoration: new BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: Colors.white),
-                                        image: new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: new NetworkImage(
-                                                "http://mobilehost2019.com/LBAS/profile/${widget.advertiser.email}.jpg?dummy=${(number)}'")
-                              )))),
-                              SizedBox(height: 5),
-                              Container(
-                                child: Text(
-                                  widget.advertiser.name?.toUpperCase() ??
-                                      'Not register',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                        Icons.email,
-                                      ),
-                                  Container(
-                                    child: Text(
-                                      widget.advertiser.email,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.phone_android,
-                                  ),
-                                  Text(widget.advertiser.phone??
-                                      'not registered'),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                        Icons.location_on,
-                                      ),
-                                  Container(
-                                    child: Text(
-                                      widget.advertiser.address,
-                                      style: TextStyle(
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Container(
-                                color: Colors.blueAccent,
-                                child: Center(
-                                  child: Text("My Profile ",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ]),
-                        SizedBox(
-                          height: 4,
+          body: Container(
+            color: Colors.teal[100],
+            child: Column(
+              children: <Widget>[
+                SizedBox(height:10.0),
+                GestureDetector(
+                  onTap: _takePicture,
+                  child: Container(
+                      width: 150.0,
+                      height: 150.0,
+                      decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white),
+                          image: new DecorationImage(
+                              fit: BoxFit.cover,
+                              image: new NetworkImage(
+                                  "http://mobilehost2019.com/LBAS/profile/${widget.advertiser.email}.jpg?dummy=${(number)}'")
+                )))),
+                SizedBox(height:10.0),
+                Container(
+                  color: Colors.teal[200],
+                  padding: EdgeInsets.all(8.0),
+                  child: Table(
+                    // defaultColumnWidth: FixedColumnWidth(1.0),
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    children: [
+                      TableRow(children: [
+                        new Text("Business name",style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15),),
+                              
+                          new Text(widget.advertiser.name,style: TextStyle(
+                              // fontWeight: FontWeight.w600,
+                              fontSize: 15),),
+                          Container(
+                        child: Align(alignment: Alignment.center,
+                        child:MaterialButton(
+                        onPressed: _changeName,
+                        child: Text("UPDATE",style: TextStyle(
+                              color: Colors.blue[600],
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13),),),
                         ),
-                      ],
-                    ),
-                  );
-                }
-
-                if (index == 1) {
-                  return Padding(
-                    padding: EdgeInsets.all(2.0),
-                    child: Column(
-                      children: <Widget>[
-                        MaterialButton(
-                          onPressed: _changeName,
-                          child: Text("CHANGE BUSINESS NAME"),
+                      ),
+                      ]),
+                      TableRow(children: [
+                        new Text("Contact",style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15),
+                        ),  
+                        new Text(widget.advertiser.phone,style: TextStyle(
+                          fontSize: 15),
                         ),
-                        MaterialButton(
-                          onPressed: _changePassword,
-                          child: Text("CHANGE PASSWORD"),
-                        ),
-                        MaterialButton(
+                        Container(
+                          child: Align(alignment: Alignment.center,
+                          child:MaterialButton(
                           onPressed: _changePhone,
-                          child: Text("CHANGE PHONE"),
+                          child: Text("UPDATE",style: TextStyle(
+                                color: Colors.blue[600],
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13),),),
+                          ),
                         ),
-                        MaterialButton(
+                      ]),
+                      TableRow(children: [
+                        new Text("Address",style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15),
+                        ),     
+                        new Text(widget.advertiser.address,style: TextStyle(
+                          fontSize: 15),
+                        ),
+                        Container(
+                          child: Align(alignment: Alignment.center,
+                          child:MaterialButton(
                           onPressed: _changeAddress,
-                          child: Text("CHANGE ADDRESS"),
+                          child: Text("UPDATE",style: TextStyle(
+                                color: Colors.blue[600],
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13),),),
+                          ),
                         ),
-                      ],
-                    ),
-                  );
-                }
-              }),
+                      ]),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(15,15,15,15),
+                  child: Align(alignment: Alignment.bottomCenter,
+                  child:RaisedButton(
+                    padding: EdgeInsets.fromLTRB(15,15,15,15),
+                    color: Colors.teal[200],
+                    
+                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),  
+                  onPressed: _changePassword,
+                  child: Text("CHANGE PASSWORD",
+                  style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14),
+                        ),),
+                  ),
+                ),
+              ],
+            ),
+          )
         ));
   }
 
@@ -306,13 +282,6 @@ class _Page1State extends State<Page1> {
   void _changeName() {
     TextEditingController nameController = TextEditingController();
     // flutter defined function
-
-    if (widget.advertiser.name == "not register") {
-      Toast.show("Not allowed", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      return;
-    }
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -330,6 +299,7 @@ class _Page1State extends State<Page1> {
             new FlatButton(
               child: new Text("Yes"),
               onPressed: () {
+                FocusScope.of(context).unfocus(); //dismiss keyboard
                 if (nameController.text.length < 4) {
                   Toast.show(
                       "Name should be more than 4 characters long", context,
@@ -345,7 +315,9 @@ class _Page1State extends State<Page1> {
                   if (dres[0] == "success") {
                     print('in success');
                     setState(() {
+                      Toast.show("Success ", context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
                       widget.advertiser.name = dres[1];
+                      print("This is dres0:" + dres[0]);
                     });
                   } else {}
                 }).catchError((err) {
@@ -369,24 +341,16 @@ class _Page1State extends State<Page1> {
   void _changePassword() {
     TextEditingController passController = TextEditingController();
     // flutter defined function
-    print(widget.advertiser.name);
-    if (widget.advertiser.name == "not register") {
-      Toast.show("Not allowed", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      return;
-    }
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Change Password for " + widget.advertiser.name),
+          title: new Text("Change password for " + widget.advertiser.name),
           content: new TextField(
             controller: passController,
             decoration: InputDecoration(
-              labelText: 'New Password',
-              icon: Icon(Icons.lock),
-            ),
+                labelText: 'Password', icon: Icon(Icons.lock)),
             obscureText: true,
           ),
           actions: <Widget>[
@@ -394,8 +358,10 @@ class _Page1State extends State<Page1> {
             new FlatButton(
               child: new Text("Yes"),
               onPressed: () {
+                FocusScope.of(context).unfocus(); //dismiss keyboard
                 if (passController.text.length < 5) {
-                  Toast.show("Password too short", context,
+                  Toast.show(
+                      "Password should be more than 5 characters long", context,
                       duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
                   return;
                 }
@@ -407,20 +373,17 @@ class _Page1State extends State<Page1> {
                   List dres = string.split(",");
                   if (dres[0] == "success") {
                     print('in success');
+                    Toast.show("success", context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
                     setState(() {
+                      Toast.show("Success ", context,
+                          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
                       widget.advertiser.name = dres[1];
-                      if (dres[0] == "success") {
-                        Toast.show("Success", context,
-                            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-                            savepref(passController.text);
-                            Navigator.of(context).pop();
-                      }
                     });
                   } else {}
                 }).catchError((err) {
                   print(err);
                 });
-                
+                Navigator.of(context).pop();
               },
             ),
             new FlatButton(
@@ -462,7 +425,8 @@ class _Page1State extends State<Page1> {
             new FlatButton(
               child: new Text("Yes"),
               onPressed: () {
-                if (phoneController.text.length < 5) {
+                FocusScope.of(context).unfocus(); //dismiss keyboard
+                if (phoneController.text.length < 9) {
                   Toast.show("Please enter correct phone number", context,
                       duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
                       return;
@@ -542,6 +506,8 @@ class _Page1State extends State<Page1> {
                   if (dres[0] == "success") {
                     print('in success');
                     setState(() {
+                      Toast.show("Success ", context,
+                          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
                       widget.advertiser.address = dres[4];
                     });
                   } else {}

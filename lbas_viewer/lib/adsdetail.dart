@@ -1,11 +1,19 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lbas_viewer/adsimage.dart';
 import 'package:lbas_viewer/advertisement.dart';
+import 'package:lbas_viewer/advertiser.dart';
+import 'package:lbas_viewer/advertiserInfo.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'mainscreen.dart';
+
+final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+String urlgetuser="http://mobilehost2019.com/LBAS/php/get_user.php";
+Advertiser advertiser;
 
 class AdsDetail extends StatefulWidget {
   final Advertisement advertisement;
@@ -17,6 +25,12 @@ class AdsDetail extends StatefulWidget {
 }
 
 class _AdsDetailState extends State<AdsDetail> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -30,8 +44,7 @@ class _AdsDetailState extends State<AdsDetail> {
             title: Text('AVERTISEMENT DETAILS'),
             backgroundColor: Colors.blueAccent,
           ),
-          body: SingleChildScrollView(
-            child: Container(
+          body: Container(
               height: height,
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -39,12 +52,12 @@ class _AdsDetailState extends State<AdsDetail> {
                   fit: BoxFit.fill,
                 ),
               ),
-              padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: DetailInterface(
                 advertisement: widget.advertisement,
               ),
             ),
-          )),
+          ),
     );
   }
 
@@ -67,130 +80,213 @@ class DetailInterface extends StatefulWidget {
 }
 
 class _DetailInterfaceState extends State<DetailInterface> {
-  // Completer<GoogleMapController> _controller = Completer();
-  // CameraPosition _myLocation;
-  // List<Marker> markers = [];
+  GoogleMapController _controller;
 
   @override
   void initState() {
     super.initState();
-    print('here is detail');
-    print(widget.advertisement.adsid);
-    print(widget.advertisement.title);
-    print(widget.advertisement.description); 
-    print(widget.advertisement.adsimage);
-    print(widget.advertisement.address); 
-    print(widget.advertisement.radius);
-    print(widget.advertisement.lat);
-    print(widget.advertisement.lng); 
-    print(widget.advertisement.status);
-    print(widget.advertisement.period);
-    print(widget.advertisement.postdate);
-    print(widget.advertisement.duedate);
-    print(widget.advertisement.advertiser);
-    // _myLocation = CameraPosition(
-    //   target: LatLng(
-    //       double.parse(widget.job.joblat), double.parse(widget.job.joblng)),
-    //   zoom: 13.5,
-    // );
-
-    // markers.add(Marker(
-    //   markerId: MarkerId('myMarker'),
-    //   infoWindow: InfoWindow(title: "Your Job Here"),
-    //   draggable: false,
-    //   onTap: (){
-    //     print('Marker Tapped');
-    //   },
-    //   position: LatLng(double.parse(widget.job.joblat), double.parse(widget.job.joblng)),
-    //   ));
-    // print(_myLocation.toString());
+    getAdvertiser();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Center(),
-        GestureDetector(
-          onTap: (){
-            zoomAdsImage(context, widget.advertisement);
-          },
-          child: Hero(
-            tag: "adsImage",
-            child: Container(
-            width: 180,
-            // height: 210,
-            child: Image.network(
-                'http://mobilehost2019.com/LBAS/advertisement/${widget.advertisement.adsimage}.jpg',
-              fit: BoxFit.fitWidth),
+    final mapWidth = MediaQuery.of(context).size.width;
+    final mapHeight = mapWidth*0.5;
+
+    return SingleChildScrollView(
+        child: Column(
+        children: <Widget>[
+          GestureDetector(
+            onTap: (){
+              zoomAdsImage(context, widget.advertisement);
+            },
+            child: Hero(
+              tag: "adsImage",
+              child: Container(
+              width: 180,
+              // height: 210,
+              child: Image.network(
+                  'http://mobilehost2019.com/LBAS/advertisement/${widget.advertisement.adsimage}.jpg',
+                fit: BoxFit.fitWidth),
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(widget.advertisement.title.toUpperCase(),
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            )),
-        Text(widget.advertisement.description),
-        Container(
-          alignment: Alignment.topLeft,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 5,
-              ),
-              Table(
-                columnWidths: {0: FlexColumnWidth(1.3), 1: FlexColumnWidth(2)},
-                children: [
-                TableRow(children: [
-                  Text("Advertiser",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  Text(widget.advertisement.advertiser,
-                    style: TextStyle(fontSize: 16)),
-                ]),
-                TableRow(children: [
-                  Text("Address",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  Text(widget.advertisement.address,
-                  style: TextStyle(fontSize: 16))
-                ]),
-              ]),
-              SizedBox(
-                height: 10,
-              ),
-              // Container(
-              //   height: 170,
-              //   width: 340,
-              //   child: GoogleMap(
-              //     // 2
-              //     initialCameraPosition: _myLocation,
-              //     // 3
-              //     mapType: MapType.hybrid,
-              //     // 4
-              //     markers: Set.from(markers),
-                  
-
-              //     onMapCreated: (GoogleMapController controller) {
-              //       _controller.complete(controller);
-              //     },
-              //   ),
-              // ),
-              SizedBox(height: 8,),
-            ],
+          SizedBox(
+            height: 10,
           ),
-        ),
-      ],
+          Text(widget.advertisement.title.toUpperCase(),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              )),
+          SizedBox(height:18.0),
+          Container(
+            alignment: Alignment.topLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Description",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                SizedBox(height: 3.0),
+                Text(widget.advertisement.description, style: TextStyle(fontSize: 16.0),),
+                SizedBox(height: 15.0),
+                Text("Address",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                SizedBox(height: 3.0),
+                Text(widget.advertisement.address, style: TextStyle(fontSize: 16.0),),
+                SizedBox(height: 8.0),
+                Divider(thickness: 3.0, color: Colors.grey),
+                SizedBox(height: 8.0),
+                Text("Posted by:",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
+                ),
+                SizedBox(height:3.0),
+                advertiserNameCard(advertiser),
+                // Container(
+                //   height: mapHeight,
+                //   width: mapWidth,
+                //   child: mapWidget(
+                //     widget.advertisement.lat, 
+                //     widget.advertisement.lng, 
+                //     widget.advertisement.title
+                //   ),   
+                // ),
+                // SizedBox(height: 10.0),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
+
+  //-----------------------Function-------------------------
 
   zoomAdsImage(BuildContext context, Advertisement advertisement){
     Navigator.push(context, MaterialPageRoute(
       builder: (BuildContext context) => AdsImage(advertisement: widget.advertisement)
       )
+    );
+  }
+
+  Future<String> getAdvertiser() async {
+    http.post(urlgetuser, body: {
+      "email": widget.advertisement.advertiser,
+    }).then((res) {
+      print(res.statusCode);
+      var string = res.body;
+      List dres = string.split(",");
+      print(dres);
+      setState(() {
+        advertiser= new Advertiser(
+        name: dres[1],
+        email: dres[2],
+        phone: dres[3],
+        address: dres[4],
+      );
+      });
+    }).catchError((err) {
+      print(err);
+    });
+    return null;
+  }
+
+  //---------------------------- Google Map ----------------------------
+  Widget mapWidget(String latitude, String longitude, String title){
+    return GoogleMap(
+      zoomGesturesEnabled: true,
+      tiltGesturesEnabled: false,
+      mapType: MapType.normal,
+      markers: _createMarker(latitude, longitude, title),
+      initialCameraPosition: CameraPosition(
+        target: LatLng(double.parse(latitude), double.parse(longitude)),
+        zoom: 12,//higher number,more zoom in
+      ),
+      onMapCreated: (GoogleMapController controller){
+        _controller = controller;
+      },
+    );
+  }
+
+  Set<Marker> _createMarker(String latitude, String longitude, String title){
+    return <Marker>[
+      Marker(
+        onTap: (){
+        },
+        draggable: false,
+        markerId: MarkerId("myLocation"),
+        position: LatLng(double.parse(latitude), double.parse(longitude)),
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(title: "$title"),
+      )
+    ].toSet();
+  }
+
+  //-------------------------Custom widget---------------------------
+  Padding advertiserNameCard(Advertiser advertiser){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        color: Color.fromRGBO(222, 222, 222, 1),
+        elevation: 8.0,
+        child: InkWell(
+          onTap:()=> Navigator.push(context, MaterialPageRoute(builder: (contex)=>AdvertiserInfo(advertiser: advertiser))),
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      image: DecorationImage(
+                    fit: BoxFit.fill,
+                  // image: AssetImage(
+                  //   'assets/images/ads.png'
+                  // )
+                  image: NetworkImage(
+                    "http://mobilehost2019.com/LBAS/profile/${advertiser.email}.jpg"
+                  )
+                ))),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(advertiser.name,style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15),
+                      ),
+                      SizedBox(height:5.0),
+                      Text("Contact :",style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12),
+                      ),  
+                      Text(advertiser.phone,style: TextStyle(
+                        fontSize: 12),
+                      ),
+                      SizedBox(height:5.0),
+                      Text("Address :",style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12),
+                      ),  
+                      Text(advertiser.address,style: TextStyle(
+                        fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: <Widget>[
+
+                  ],
+                ),
+              ],
+            )
+          )
+        )
+      ),
     );
   }
 }

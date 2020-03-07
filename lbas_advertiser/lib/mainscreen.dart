@@ -49,213 +49,201 @@ class _MainScreenState extends State<MainScreen> {
               onRefresh: () async {
                 await refreshList();
               },
-              child: ListView.builder(
-                  // Count the data  
-              itemCount: data == null ? 1 : data.length + 1,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return Container(
-                    child: Column(
-                      children: <Widget>[
-                        
-                        Text('Your Advertisement',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Divider(thickness: 2.0,),
-                      ],
-                    ),
-                  );
-                }
-                if (index == data.length && perpage > 1) {
-                  return Container(
-                    width: 250,
-                    color: Colors.white,
-                    child: MaterialButton(
-                      child: Text(
-                        "Load More",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      onPressed: () {},
-                    ),
-                  );
-                }
-                index -= 1;
-                return Padding(
-                  padding: EdgeInsets.all(2.0),
-                  child: Card(
-                    elevation: 2,
-                    child: InkWell(
-                      onTap: () => _onAdsDetail(
-                            (data[index]['adsid']).toString(),
-                            data[index]['title'],
-                            data[index]['description'],
-                            data[index]['adsimage'],
-                            data[index]['address'],
-                            data[index]['radius'],
-                            (data[index]['lat'].toString()),
-                            (data[index]['lng'].toString()),
-                            data[index]['status'],
-                            data[index]['period'],
-                            data[index]['postdate'],
-                            data[index]['duedate'],
-                            data[index]['advertiser'],
-                          ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              height: 130,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white),
-                                  image: DecorationImage(
-                                fit: BoxFit.fill,
-                              // image: AssetImage(
-                              //   'assets/images/ads.png'
-                              // )
-                              image: NetworkImage(
-                                "http://mobilehost2019.com/LBAS/advertisement/${data[index]['adsimage']}.jpg"
-                              )
-                            ))),
-                            SizedBox(width: 20),
-                            Expanded(
-                              child: Container(
-                                padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        SizedBox(height: 5.0,),
-                                        Text('Title: ',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Flexible(
-                                          child: Text(
-                                            data[index]['title']
-                                                    .toString(),
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text('ADS ID: ',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Flexible(
-                                          child: Text(
-                                            data[index]['adsid']
-                                                    .toString(),
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text('Post Date: ',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Flexible(
-                                          child: Text(
-                                            data[index]['postdate']
-                                                    .toString(),
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text('Due Date: ',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Flexible(
-                                          child: Text(
-                                            data[index]['duedate']
-                                                    .toString(),
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10.0,top: 4.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          Container(
-                                            decoration: new BoxDecoration(
-                                              color: Color.fromRGBO(59, 255, 98, 1),
-                                              border: Border.all(color: Colors.black12, width: 2.0)
-                                            ),          
-                                            padding: EdgeInsets.only(left: 3.0, right: 3.0),
-                                            child: Text(
-                                              data[index]['status']
-                                                      .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }),
+              child: data==null?abc():showAds(),
+              // child: ListView.builder(
+              //     // Count the data  
+              //   itemCount: data == null ? 1 : data.length + 1,
+              //   itemBuilder: (context, index) {
+              //     if (index == 0) {
+                    // return Container(
+                    //   child: Column(
+                    //     children: <Widget>[
+                          
+                    //       Text('Your Advertisement',
+                    //         style: TextStyle(
+                    //           fontSize: 20.0,
+                    //           fontWeight: FontWeight.bold,
+                    //         ),
+                    //       ),
+                    //       Divider(thickness: 2.0,),
+              //           ],
+              //         ),
+              //       );
+              //     }
+              //     if (index == data.length && perpage > 1) {
+              //       return Container(
+              //         width: 250,
+              //         color: Colors.white,
+              //         child: MaterialButton(
+              //           child: Text(
+              //             "Load More",
+              //             style: TextStyle(color: Colors.black),
+              //           ),
+              //           onPressed: () {},
+              //         ),
+              //       );
+              //     }
+              //     index -= 1;
+              //     return Padding(
+              //       padding: EdgeInsets.all(2.0),
+              //       child: Card(
+              //         elevation: 2,
+              //         child: InkWell(
+              //           onTap: () => _onAdsDetail(
+              //                 (data[index]['adsid']).toString(),
+              //                 data[index]['title'],
+              //                 data[index]['description'],
+              //                 data[index]['adsimage'],
+              //                 data[index]['address'],
+              //                 data[index]['radius'],
+              //                 (data[index]['lat'].toString()),
+              //                 (data[index]['lng'].toString()),
+              //                 data[index]['status'],
+              //                 data[index]['period'],
+              //                 data[index]['postdate'],
+              //                 data[index]['duedate'],
+              //                 data[index]['advertiser'],
+              //               ),
+              //           child: Padding(
+              //             padding: const EdgeInsets.all(3.0),
+              //             child: Row(
+              //               children: <Widget>[
+              //                 Container(
+              //                   height: 130,
+              //                   width: 100,
+              //                   decoration: BoxDecoration(
+              //                       border: Border.all(color: Colors.white),
+              //                       image: DecorationImage(
+              //                     fit: BoxFit.fill,
+              //                   // image: AssetImage(
+              //                   //   'assets/images/ads.png'
+              //                   // )
+              //                   image: NetworkImage(
+              //                     "http://mobilehost2019.com/LBAS/advertisement/${data[index]['adsimage']}.jpg"
+              //                   )
+              //                 ))),
+              //                 SizedBox(width: 20),
+              //                 Expanded(
+              //                   child: Container(
+              //                     padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+              //                     child: Column(
+              //                       crossAxisAlignment: CrossAxisAlignment.start,
+              //                       children: <Widget>[
+              //                         Row(
+              //                           children: <Widget>[
+              //                             SizedBox(height: 5.0,),
+              //                             Text('Title: ',
+              //                                 style: TextStyle(
+              //                                     fontSize: 16,
+              //                                     fontWeight: FontWeight.bold,
+              //                                 ),
+              //                               ),
+              //                             SizedBox(
+              //                               width: 5,
+              //                             ),
+              //                             Flexible(
+              //                               child: Text(
+              //                                 data[index]['title']
+              //                                         .toString(),
+              //                                 style: TextStyle(
+              //                                     fontSize: 16,
+              //                                 ),
+              //                               ),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                         SizedBox(
+              //                           height: 5,
+              //                         ),
+              //                         Row(
+              //                           children: <Widget>[
+              //                             Text('ADS ID: ',
+              //                                 style: TextStyle(
+              //                                     fontSize: 16,
+              //                                     fontWeight: FontWeight.bold,
+              //                                 ),
+              //                               ),
+              //                             SizedBox(
+              //                               width: 5,
+              //                             ),
+              //                             Flexible(
+              //                               child: Text(
+              //                                 data[index]['adsid']
+              //                                         .toString(),
+              //                                 style: TextStyle(
+              //                                     fontSize: 16,
+              //                                 ),
+              //                               ),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                         Row(
+              //                           mainAxisAlignment: MainAxisAlignment.start,
+              //                           children: <Widget>[
+              //                             Text('Post Date: ',
+              //                                 style: TextStyle(
+              //                                     fontSize: 16,
+              //                                     fontWeight: FontWeight.bold,
+              //                                 ),
+              //                               ),
+              //                             SizedBox(
+              //                               width: 5,
+              //                             ),
+              //                             Flexible(
+              //                               child: Text(
+              //                                 data[index]['postdate']==null? "-":data[index]['postdate']
+              //                                         .toString(),
+              //                                 style: TextStyle(
+              //                                     fontSize: 16,
+              //                                 ),
+              //                               ),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                         Row(
+              //                           mainAxisAlignment: MainAxisAlignment.start,
+              //                           children: <Widget>[
+              //                             Text('Due Date: ',
+              //                                 style: TextStyle(
+              //                                     fontSize: 16,
+              //                                     fontWeight: FontWeight.bold,
+              //                                 ),
+              //                               ),
+              //                             SizedBox(
+              //                               width: 5,
+              //                             ),
+              //                             Flexible(
+              //                               child: Text(
+              //                                 data[index]['duedate']==null? "-":data[index]['duedate']
+              //                                         .toString(),
+              //                                 style: TextStyle(
+              //                                     fontSize: 16,
+              //                                 ),
+              //                               ),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                         Padding(
+              //                           padding: const EdgeInsets.only(right: 10.0,top: 4.0),
+              //                           child: Row(
+              //                             mainAxisAlignment: MainAxisAlignment.end,
+              //                             children: <Widget>[
+              //                               statusBar(data[index]['status'])
+              //                             ],
+              //                           ),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     );
+              //   }
+              // ),
             )
     );
   }
@@ -399,5 +387,369 @@ class _MainScreenState extends State<MainScreen> {
         duedate: duedate,
         advertiser: advertiser);
     Navigator.push(context, MaterialPageRoute(builder: (contex)=>AdsDetail(advertisement: advertisement, advertiser:widget.advertiser)));
+  }
+
+  //------------------------Custom widget-------------------------------
+  Container abc(){
+    return Container(
+      child: Column(
+        children: <Widget>[
+          
+          Text('Your Advertisement',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Divider(thickness: 2.0),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Text("-No Advertisement-",
+                style: TextStyle(color: Colors.grey, fontSize: 16),
+              )
+            ),
+          )
+        ]
+      )
+    );
+  }
+  Padding noData(){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Text("-No Advertisement-",
+          style: TextStyle(color: Colors.grey, fontSize: 16),
+        )
+      ),
+    );
+  }
+
+  Container showAds(){
+    return Container(
+      child: Center(
+        child: ListView.builder(
+            // Count the data  
+          itemCount: data == null ? 1 : data.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return Container(
+                child: Column(
+                  children: <Widget>[
+                    
+                    Text('Your Advertisement',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Divider(thickness: 2.0,),
+                  ],
+                ),
+              );
+            }
+            if (index == data.length && perpage > 1) {
+              return Container(
+                width: 250,
+                color: Colors.white,
+                child: MaterialButton(
+                  child: Text(
+                    "Load More",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onPressed: () {},
+                ),
+              );
+            }
+            index -= 1;
+            return Padding(
+              padding: EdgeInsets.all(2.0),
+              child: Card(
+                elevation: 2,
+                child: InkWell(
+                  onTap: () => _onAdsDetail(
+                        (data[index]['adsid']).toString(),
+                        data[index]['title'],
+                        data[index]['description'],
+                        data[index]['adsimage'],
+                        data[index]['address'],
+                        data[index]['radius'],
+                        (data[index]['lat'].toString()),
+                        (data[index]['lng'].toString()),
+                        data[index]['status'],
+                        data[index]['period'],
+                        data[index]['postdate'],
+                        data[index]['duedate'],
+                        data[index]['advertiser'],
+                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          height: 130,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
+                              image: DecorationImage(
+                            fit: BoxFit.fill,
+                          // image: AssetImage(
+                          //   'assets/images/ads.png'
+                          // )
+                          image: NetworkImage(
+                            "http://mobilehost2019.com/LBAS/advertisement/${data[index]['adsimage']}.jpg"
+                          )
+                        ))),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: Container(
+                            padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    SizedBox(height: 5.0,),
+                                    Text('Title: ',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        data[index]['title']
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text('ADS ID: ',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        data[index]['adsid']
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('Post Date: ',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        data[index]['postdate']==null? "-":data[index]['postdate']
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('Due Date: ',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        data[index]['duedate']==null? "-":data[index]['duedate']
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10.0,top: 4.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      statusBar(data[index]['status'])
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+        ),
+      ),
+    );
+  }
+
+  Container statusBar(String status){
+    if(status=="Pending"){
+      return Container(
+        decoration: new BoxDecoration(
+          color: Color.fromRGBO(184, 160, 108, 1),
+          border: Border.all(color: Colors.black12, width: 2.0)
+        ),          
+        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        child: Text(
+          status,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      );
+    }else if(status=="Approved"){
+      return Container(
+        decoration: new BoxDecoration(
+          color: Color.fromRGBO(252, 218, 71, 1),
+          border: Border.all(color: Colors.black12, width: 2.0)
+        ),          
+        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        child: Text(
+          status,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      );
+    }else if(status=="Declined"){
+      return Container(
+        decoration: new BoxDecoration(
+          color: Color.fromRGBO(255, 69, 48, 1),
+          border: Border.all(color: Colors.black12, width: 2.0)
+        ),          
+        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        child: Text(
+          status,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      );
+    }else if(status=="Posting"){
+      return Container(
+        decoration: new BoxDecoration(
+          color: Color.fromRGBO(133, 255, 10, 1),
+          border: Border.all(color: Colors.black12, width: 2.0)
+        ),          
+        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        child: Text(
+          status,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      );
+    }else if(status=="Blocked"){
+      return Container(
+        decoration: new BoxDecoration(
+          color: Colors.black,
+          border: Border.all(color: Color.fromRGBO(41, 41, 41, 1), width: 2.0)
+        ),          
+        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        child: Text(
+          status,
+          style: TextStyle(
+            color: Colors.white70,
+            fontSize: 16,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      );
+    }else if(status=="Expired"){
+      return Container(
+        decoration: new BoxDecoration(
+          color: Color.fromRGBO(156, 156, 156, 1),
+          border: Border.all(color: Colors.black12, width: 2.0)
+        ),          
+        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        child: Text(
+          status,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      );
+    }else if(status=="Cancelled"){
+      return Container(
+        decoration: new BoxDecoration(
+          color: Color.fromRGBO(156, 156, 156, 1),
+          border: Border.all(color: Colors.black12, width: 2.0)
+        ),          
+        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        child: Text(
+          status,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      );
+    }else if(status=="Deleted"){
+      return Container(
+        decoration: new BoxDecoration(
+          color: Color.fromRGBO(255, 69, 48, 1),
+          border: Border.all(color: Colors.black12, width: 2.0)
+        ),          
+        padding: EdgeInsets.only(left: 3.0, right: 3.0),
+        child: Text(
+          status,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      );
+    }else{
+      return Container(height: 15.0, width: 20.0);
+    }
   }
 }

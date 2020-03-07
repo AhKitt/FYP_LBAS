@@ -8,6 +8,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
  
 void main() => runApp(MainScreen());
+//changlun = 6.4318, 100.4300
+//kachi = 6.439573, 100.529638
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key}) : super(key: key);
@@ -22,7 +24,6 @@ class _MainScreenState extends State<MainScreen> {
   String _currentAddress = "Searching current location...";
   List data;
   Position _currentPosition;
-  double _lastFeedScrollOffset = 0;
   ScrollController _scrollController;
   Position position;
   GoogleMapController _controller;
@@ -33,7 +34,6 @@ class _MainScreenState extends State<MainScreen> {
     refreshKey = GlobalKey<RefreshIndicatorState>();
     _getCurrentLocation();
     makeRequest();
-    // print(data);
     print(_currentAddress);
   }
 
@@ -56,6 +56,7 @@ class _MainScreenState extends State<MainScreen> {
               onRefresh: () async {
                 await refreshList();
               },
+              // child: checkAds(),
           child: data==null?noData():showAds(),
         ),
       ),
@@ -63,6 +64,16 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   //-------------------------------Custom Widget-------------------------------
+  Widget checkAds(){
+    if(data.length==0){
+      return noData();
+    }else if(data==null){
+      return noData();
+    }else{
+      return showAds();
+    }
+  }
+
   Padding noData(){
     return Padding(
             padding: const EdgeInsets.all(8.0),
@@ -75,6 +86,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Padding showAds(){
+    if(data.length>0){
     return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
@@ -88,7 +100,24 @@ class _MainScreenState extends State<MainScreen> {
                 })
               )
             ),
+          );}else{
+            return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: GridView.count(
+                crossAxisCount: 1,
+                crossAxisSpacing: 7.0,
+                mainAxisSpacing: 7.0,
+                childAspectRatio: 1/1.3, //width:height
+                children: List.generate(1, (index){
+                  return Center(
+                    child: Text("-No Advertisement-", style: TextStyle(color: Colors.grey, fontSize: 16))
+                  );
+                })
+              )
+            ),
           );
+          }
   }
 
   @override
@@ -96,7 +125,7 @@ class _MainScreenState extends State<MainScreen> {
     return Container(
       height: 50,
       child: Card(
-        color: Color.fromRGBO(5, 235, 206, 1),
+        color: Color.fromRGBO(197, 209, 227, 1),
         elevation: 5.0,
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
@@ -120,7 +149,7 @@ class _MainScreenState extends State<MainScreen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Expanded(
-                flex:3,
+                flex:5,
                   child: Container(
                     margin: EdgeInsets.only(top: 5.0),
                   child: Image.network(
@@ -130,13 +159,13 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
               Expanded(
-                flex:1,
+                flex:2,
                 child: Container(
                   margin: EdgeInsets.all(10.0),
                   child: Text(
                     data[index]["title"],
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold
                     ),
                   ),
@@ -192,6 +221,8 @@ class _MainScreenState extends State<MainScreen> {
     this._getCurrentLocation();
     print("position below");
     print(position);
+    print("data below");
+    print(data);
     return null;
   }
 
@@ -235,15 +266,6 @@ class _MainScreenState extends State<MainScreen> {
       duration: Duration(milliseconds: 250),
       curve: Curves.decelerate,
     );
-  }
-
-  // Call this when changing the body that doesn't use a ScrollController.
-  void _disposeScrollController() {
-    if (_scrollController != null) {
-      _lastFeedScrollOffset = _scrollController.offset;
-      _scrollController.dispose();
-      _scrollController = null;
-    }
   }
 
   void _onAdsDetail(

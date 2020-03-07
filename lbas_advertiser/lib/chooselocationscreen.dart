@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lbas_advertiser/loginscreen.dart';
 import 'package:lbas_advertiser/page2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
