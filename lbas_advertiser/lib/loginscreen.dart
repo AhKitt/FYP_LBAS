@@ -203,6 +203,9 @@ class _LoginPageState extends State<LoginPage> {
         pr.dismiss();
         print(err);
       });
+    } else if(_email==""){
+      Toast.show('Please Enter Email', context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
     } else {
       Toast.show('Invalid Email', context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);

@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:lbas_advertiser/loginscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:lbas_advertiser/loginscreen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
@@ -16,11 +16,9 @@ File _image;
 final TextEditingController _namecontroller = TextEditingController();
 final TextEditingController _emcontroller = TextEditingController();
 final TextEditingController _passcontroller = TextEditingController();
-final TextEditingController _pass2controller = TextEditingController();
 final TextEditingController _phcontroller = TextEditingController();
 final TextEditingController _addcontroller = TextEditingController();
-String _name, _email, _password, _password2, _phone, _address;
-bool _showText;
+String _name, _email, _password, _phone, _address;
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -32,7 +30,6 @@ class _RegisterUserState extends State<RegisterScreen> {
   @override
   void initState() { 
     super.initState();
-    _showText=false;
   }
 
   @override
@@ -76,7 +73,6 @@ class RegisterWidgetState extends State<RegisterWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         GestureDetector(
             onTap: () => choose(context),
@@ -117,22 +113,6 @@ class RegisterWidgetState extends State<RegisterWidget> {
           obscureText: true,
         ),
         TextField(
-          controller: _pass2controller,
-          decoration:
-              InputDecoration(labelText: 'Comfirm Password', icon: Icon(Icons.lock)),
-          obscureText: true,
-        ),
-        Visibility(
-          visible: _showText,
-          child: Container(
-            margin: EdgeInsets.only(left:10),
-            child: Text(
-              "* Wrong password",
-              style: TextStyle(color: Colors.red),
-            ),
-          ),
-        ),
-        TextField(
             controller: _phcontroller,
             keyboardType: TextInputType.phone,
             decoration:
@@ -157,7 +137,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
           color: Color.fromRGBO(0, 186, 247, 1),
           textColor: Colors.white,
           elevation: 15,
-          onPressed: _comfirmPass,
+          onPressed: _onRegister,
         ),
         SizedBox(
           height: 10,
@@ -229,19 +209,6 @@ class RegisterWidgetState extends State<RegisterWidget> {
         MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
   }
 
-  void _comfirmPass(){
-    _password = _passcontroller.text;
-    _password2 = _pass2controller.text;
-
-    if(_password == _password2){
-      _onRegister();
-    }else{
-      setState(() {
-        _showText=true;
-      });
-    }
-  }
-
   void uploadData() {
     _name = _namecontroller.text;
     _email = _emcontroller.text;
@@ -276,7 +243,6 @@ class RegisterWidgetState extends State<RegisterWidget> {
         _emcontroller.text = '';
         _phcontroller.text = '';
         _passcontroller.text = '';
-        _pass2controller.text = '';
         _addcontroller.text = '';
         pr.dismiss();
         Navigator.pop(context,
@@ -285,7 +251,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
         print(err);
       });
     } else {
-      Toast.show("Please fill in all the field", context,
+      Toast.show("Check your registration information", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
     }
   }

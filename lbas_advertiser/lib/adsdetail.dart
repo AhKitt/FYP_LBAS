@@ -4,11 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lbas_advertiser/category.dart';
 import 'package:lbas_advertiser/mainscreen.dart';
 import 'package:lbas_advertiser/adsimage.dart';
 import 'package:lbas_advertiser/advertisement.dart';
 import 'package:lbas_advertiser/advertiser.dart';
 import 'package:lbas_advertiser/payment.dart';
+import 'package:lbas_advertiser/statusbar.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:toast/toast.dart';
 import 'package:intl/intl.dart';
@@ -116,6 +118,7 @@ class _DetailInterfaceState extends State<DetailInterface> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
+          Category(),
           GestureDetector(
             onTap: (){
               zoomAdsImage(context, widget.advertisement);
@@ -124,7 +127,6 @@ class _DetailInterfaceState extends State<DetailInterface> {
               tag: "adsImage",
               child: Container(
               width: 180,
-              // height: 210,
               child: Image.network(
                   'http://mobilehost2019.com/LBAS/advertisement/${widget.advertisement.adsimage}.jpg',
                 fit: BoxFit.fitWidth),
@@ -168,7 +170,7 @@ class _DetailInterfaceState extends State<DetailInterface> {
                         children: <Widget>[
                           Text("Status : ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                           SizedBox(width: 5),             
-                          statusBar(widget.advertisement.status),
+                          StatusBar(status: widget.advertisement.status),
                         ],
                       ),
                     ),
@@ -262,7 +264,7 @@ class _DetailInterfaceState extends State<DetailInterface> {
         center: LatLng(double.parse(latitude), double.parse(longitude)),
         radius: double.parse(radius)*1000, //in meter
         strokeColor: Colors.blue,
-        strokeWidth: 2,
+        strokeWidth: 3,
         fillColor: Colors.blue.withOpacity(0.5),
       )
     ].toSet();
@@ -376,133 +378,6 @@ class _DetailInterfaceState extends State<DetailInterface> {
       return Text(widget.advertisement.postdate + " - " + widget.advertisement.duedate);      
     }else{
       return SizedBox(height: 15.0);
-    }
-  }
-
-  Container statusBar(String status){
-    if(status=="Pending"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(184, 160, 108, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Approved"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(252, 218, 71, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Declined"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(255, 69, 48, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Posting"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(133, 255, 10, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Blocked"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Colors.black,
-          border: Border.all(color: Color.fromRGBO(41, 41, 41, 1), width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            color: Colors.white70,
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Expired"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(156, 156, 156, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Cancelled"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(156, 156, 156, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Deleted"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(255, 69, 48, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else{
-      return Container(height: 15.0, width: 20.0);
     }
   }
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lbas_advertiser/adsdetail.dart';
 import 'package:lbas_advertiser/advertisement.dart';
 import 'package:lbas_advertiser/advertiser.dart';
-import 'package:lbas_advertiser/category.dart';
 import 'package:lbas_advertiser/loginscreen.dart';
 import 'package:lbas_advertiser/page1.dart';
 import 'package:lbas_advertiser/statusbar.dart';
@@ -13,17 +12,17 @@ import 'dart:convert';
 
 double perpage = 1;
 
-class MainScreen extends StatefulWidget {
+class MainScreen2 extends StatefulWidget {
   final Advertiser advertiser;
 
-  const MainScreen({Key key,this.advertiser}) : super(key: key);
+  const MainScreen2({Key key,this.advertiser}) : super(key: key);
   
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _MainScreen2State createState() => _MainScreen2State();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreen2State extends State<MainScreen2> {
   List data;
   GlobalKey<RefreshIndicatorState> refreshKey;
   //final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
@@ -34,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
     refreshKey = GlobalKey<RefreshIndicatorState>();
     init();
     this.makeRequest();
-    print("below here is mainscreen");
+    print("below here is MainScreen2");
     print(widget.advertiser.email);
   }
 
@@ -74,18 +73,6 @@ class _MainScreenState extends State<MainScreen> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             _createUserAccountHeader(),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Dashboard'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context, MaterialPageRoute(
-                    builder: (context) => MainScreen(advertiser: widget.advertiser)
-                  )
-                );
-              },
-            ),
             ListTile(
               leading: Icon(Icons.person),
               title: Text('Manage Profile'),
@@ -267,7 +254,6 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
               );
-              // Category();
             }
             if (index == data.length && perpage > 1) {
               return Container(

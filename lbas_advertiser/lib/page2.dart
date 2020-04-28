@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:lbas_advertiser/advertisement.dart';
 import 'package:lbas_advertiser/advertiser.dart';
-import 'package:lbas_advertiser/chooselocationscreen.dart';
-import 'package:lbas_advertiser/loginscreen.dart';
 import 'package:lbas_advertiser/mainscreen.dart';
 import 'package:toast/toast.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,7 +24,6 @@ final TextEditingController _titlecontroller = TextEditingController();
 final TextEditingController _desccontroller = TextEditingController();
 final TextEditingController _addcontroller = TextEditingController();
 final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-String _title, _description, _radius, _latitude, _longitude; 
 double _sliderValue;
 double _zoom;
 String _currentAddress = "Searching your current location...";

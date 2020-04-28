@@ -19,8 +19,8 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
   Position position;
   GoogleMapController _controller;
   Widget _myMap;
-  List<DropdownMenuItem<String>> _dropDownMenuItems;
-  String _period;
+  //List<DropdownMenuItem<String>> _dropDownMenuItems;
+  //String _period;
   bool showCircle = false;
 
   @override
@@ -124,11 +124,6 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
         _controller = controller;
       },
     );
-  }
-
-  double _calZoom(double radius){
-    double newZoom = (11.5-((radius-5)*0.06));
-    return newZoom;
   }
 
   Set<Marker> _createMarker(){

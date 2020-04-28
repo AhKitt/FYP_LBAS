@@ -36,8 +36,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   
   @override
   Widget build(BuildContext context) {
-    final String urlInfo = "http://mobilehost2019.com/LBAS/php/payment.php?email=${widget.advertiser.email}&mobile=${widget.advertiser.phone}&name=${widget.advertiser.name}&amount=${widget.val}&orderid=${widget.orderid}&adsid=${widget.advertisement.adsid}&period=${widget.advertisement.period}";
-    
     return WillPopScope(
       onWillPop: _onBackPressAppBar,
       child: Scaffold(

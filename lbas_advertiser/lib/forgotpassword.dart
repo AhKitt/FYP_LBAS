@@ -47,8 +47,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.asset(
-                  'assets/images/lbas.jpg',
-                  scale: 5.0,
+                  'assets/images/logo6.JPG',
+                  scale: 2.0,
                 ),
                 SizedBox(
                   height: 20,
