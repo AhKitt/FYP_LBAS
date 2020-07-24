@@ -115,6 +115,11 @@ class _InfoInterfaceState extends State<InfoInterface> {
               ]),
               TableRow(
               children: [
+                new SizedBox(height:7.0),
+                new SizedBox(height:7.0),
+              ]),
+              TableRow(
+              children: [
                 new Text("E-mail",style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16),
@@ -122,6 +127,11 @@ class _InfoInterfaceState extends State<InfoInterface> {
                 new Text(widget.advertiser.email,style: TextStyle(
                   fontSize: 16),
                 ),
+              ]),
+              TableRow(
+              children: [
+                new SizedBox(height:7.0),
+                new SizedBox(height:7.0),
               ]),
               TableRow(children: [
                 new Text("Contact",style: TextStyle(
@@ -132,6 +142,11 @@ class _InfoInterfaceState extends State<InfoInterface> {
                   fontSize: 16),
                 ),
               ]),
+              TableRow(
+              children: [
+                new SizedBox(height:7.0),
+                new SizedBox(height:7.0),
+              ]),
               TableRow(children: [
                 new Text("Address",style: TextStyle(
                   fontWeight: FontWeight.w600,
@@ -140,6 +155,11 @@ class _InfoInterfaceState extends State<InfoInterface> {
                 new Text(widget.advertiser.address,style: TextStyle(
                   fontSize: 16),
                 ),
+              ]),
+              TableRow(
+              children: [
+                new SizedBox(height:7.0),
+                new SizedBox(height:7.0),
               ]),
             ],
           ),

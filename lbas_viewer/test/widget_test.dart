@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:lbas_viewer/mainscreen.dart';
-import 'package:lbas_viewer/splashscreen.dart';
+import 'package:lbas_viewer/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

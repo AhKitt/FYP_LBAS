@@ -118,7 +118,7 @@ class _DetailInterfaceState extends State<DetailInterface> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Category(),
+          // Category(),
           GestureDetector(
             onTap: (){
               zoomAdsImage(context, widget.advertisement);

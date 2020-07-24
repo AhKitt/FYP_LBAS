@@ -41,7 +41,7 @@ class _AdsDetailState extends State<AdsDetail> {
       child: Scaffold( 
           resizeToAvoidBottomPadding: false,
           appBar: AppBar(
-            title: Text('AVERTISEMENT DETAILS'),
+            title: Text('ADVERTISEMENT DETAILS'),
             backgroundColor: Colors.blueAccent,
           ),
           body: Container(
@@ -142,16 +142,6 @@ class _DetailInterfaceState extends State<DetailInterface> {
                 ),
                 SizedBox(height:3.0),
                 advertiserNameCard(advertiser),
-                // Container(
-                //   height: mapHeight,
-                //   width: mapWidth,
-                //   child: mapWidget(
-                //     widget.advertisement.lat, 
-                //     widget.advertisement.lng, 
-                //     widget.advertisement.title
-                //   ),   
-                // ),
-                // SizedBox(height: 10.0),
               ],
             ),
           ),

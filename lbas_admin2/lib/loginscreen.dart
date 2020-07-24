@@ -82,43 +82,9 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 10,
                 ),
-                // Row(
-                //   children: <Widget>[
-                //     Checkbox(
-                //       checkColor: Colors.grey,
-                //       value: _isChecked,
-                //       onChanged: (bool value) {
-                //         _onChange(value);
-                //       },
-                //     ),
-                //     Text('Remember Me', style: TextStyle(fontSize: 16))
-                //   ],
-                // ),
                 SizedBox(
                   height: 10,
                 ),
-                // GestureDetector(
-                //   // onTap: _register,
-                //   child: Text(
-                //     "Register New Account",
-                //     style: TextStyle(
-                //       fontSize: 16,
-                //       color: Color.fromRGBO(130, 130, 130, 1)
-                //     ),
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: 10,
-                // ),
-                // GestureDetector(
-                //   // onTap: _onForgot,
-                //   child: Text("Forgot Password?",
-                //     style: TextStyle(
-                //       fontSize: 16,
-                //       color: Color.fromRGBO(130, 130, 130, 1)
-                //     ),
-                //   ),
-                // )
               ],
             ),
           ),
@@ -128,7 +94,6 @@ class _LoginPageState extends State<LoginPage> {
   void _onLogin() {
     _username = _emcontroller.text;
     _password = _passcontroller.text;
-    // if (_isEmailValid(_userid) && (_password.length > 4)) {
       ProgressDialog pr = new ProgressDialog(context,
           type: ProgressDialogType.Normal, isDismissible: false);
       pr.style(message: "Login");
@@ -162,49 +127,7 @@ class _LoginPageState extends State<LoginPage> {
         pr.dismiss();
         print(err);
       });
-    // } else {}
   }
-
-  // void _register(){
-  //   print('onRegister');
-  //   Navigator.push(
-  //       context, MaterialPageRoute(builder: (context) => RegisterScreen()));
-  // }
-
-  // void _onForgot() {
-  //   _email = _emcontroller.text;
-
-  //   if (_isEmailValid(_email)) {
-  //     ProgressDialog pr = new ProgressDialog(context,
-  //         type: ProgressDialogType.Normal, isDismissible: false);
-  //     pr.style(message: "Sending Email");
-  //     pr.show();
-  //     http.post(urlSecurityCodeForResetPass, body: {
-  //       "email": _email,
-  //     }).then((res) {
-  //       print("secure code : " + res.body);
-  //       if (res.body == "error") {
-  //         pr.dismiss();
-  //         Toast.show('error', context,
-  //           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-  //       } else {
-  //         pr.dismiss();
-  //         _saveEmailForPassReset(_email);
-  //         _saveSecureCode(res.body); //save secure code for password reset
-  //         Toast.show('Security code sent to your email', context,
-  //             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-  //         Navigator.push(context,
-  //             MaterialPageRoute(builder: (context) => ForgotPassword()));
-  //       }
-  //     }).catchError((err) {
-  //       pr.dismiss();
-  //       print(err);
-  //     });
-  //   } else {
-  //     Toast.show('Invalid Email', context,
-  //         duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-  //   }
-  // }
 
   void _saveEmailForPassReset(String userid) async {
     print('saving preferences');

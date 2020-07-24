@@ -4,6 +4,7 @@ import 'package:lbas_admin2/adsdetial.dart';
 import 'package:lbas_admin2/advertisement.dart';
 import 'package:lbas_admin2/admin.dart';
 import 'package:lbas_admin2/loginscreen.dart';
+import 'package:lbas_admin2/statusbar.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -226,10 +227,10 @@ class _MainScreenState extends State<MainScreen> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[
-                                          statusBar(data[index]['status'])
+                                          StatusBar(status: data[index]['status'])
                                         ],
                                       ),
-                                    ),
+                                    )
                                   ],
                                 ),
                               ),

@@ -22,6 +22,7 @@ String urlgetuser = "http://mobilehost2019.com/LBAS/php/get_user.php";
 
 final TextEditingController _titlecontroller = TextEditingController();
 final TextEditingController _desccontroller = TextEditingController();
+final TextEditingController _descontroller = TextEditingController();
 final TextEditingController _addcontroller = TextEditingController();
 final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 double _sliderValue;
@@ -117,7 +118,6 @@ class _Page2State extends State<Page2> {
                     ),
                     SizedBox(height: 2.0),
                     TextField(
-                      // autofocus: false,
                       controller: _desccontroller,
                       keyboardType: TextInputType.multiline,    
                       maxLines: 5, 
@@ -159,7 +159,7 @@ class _Page2State extends State<Page2> {
                         Slider(
                           activeColor: Colors.indigoAccent,
                           min: 5.0,
-                          max: 30.0,
+                          max: 15.0,
                           onChanged: (newRating) {
                             setState(() {
                               _sliderValue = newRating;
@@ -216,6 +216,7 @@ class _Page2State extends State<Page2> {
                     //   );}
                     // ),),
                     // SizedBox(height: 15.0),
+                    
                     Row(
                       children: <Widget>[
                         Text("Period : ",

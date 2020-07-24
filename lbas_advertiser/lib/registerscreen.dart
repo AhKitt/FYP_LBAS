@@ -259,7 +259,7 @@ class RegisterWidgetState extends State<RegisterWidget> {
       pr.show();
 
       String base64Image = base64Encode(_image.readAsBytesSync());
-      
+
       http.post(urlUpload, body: {
         "encoded_string": base64Image,
         "name": _name,

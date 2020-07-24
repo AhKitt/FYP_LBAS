@@ -8,6 +8,7 @@ import 'package:lbas_admin2/loginscreen.dart';
 import 'package:lbas_admin2/mainscreen.dart';
 import 'package:lbas_admin2/advertisement.dart';
 import 'package:lbas_admin2/admin.dart';
+import 'package:lbas_admin2/statusbar.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:toast/toast.dart';
 import 'package:geolocator/geolocator.dart';
@@ -155,8 +156,8 @@ class _DetailInterfaceState extends State<DetailInterface> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text("Status : ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                          SizedBox(width: 5),             
-                          statusBar(widget.advertisement.status),
+                          SizedBox(width: 5), 
+                          StatusBar(status: widget.advertisement.status),
                         ],
                       ),
                     ),
@@ -178,7 +179,7 @@ class _DetailInterfaceState extends State<DetailInterface> {
                 SizedBox(height: 13.0),
                 Text("Radius", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                 SizedBox(height: 3.0),
-                Text(widget.advertisement.radius,style: TextStyle(fontSize: 16)),
+                Text("${widget.advertisement.radius} KM",style: TextStyle(fontSize: 16)),
                 SizedBox(height: 13.0),
                 Row(
                   children: <Widget>[
@@ -406,133 +407,6 @@ class _DetailInterfaceState extends State<DetailInterface> {
     );
   }
 
-  Container statusBar(String status){
-    if(status=="Pending"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(184, 160, 108, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Approved"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(252, 218, 71, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Declined"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(255, 69, 48, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Posting"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(133, 255, 10, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Blocked"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Colors.black,
-          border: Border.all(color: Color.fromRGBO(41, 41, 41, 1), width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            color: Colors.white70,
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Expired"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(156, 156, 156, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Cancelled"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(156, 156, 156, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else if(status=="Deleted"){
-      return Container(
-        decoration: new BoxDecoration(
-          color: Color.fromRGBO(255, 69, 48, 1),
-          border: Border.all(color: Colors.black12, width: 2.0)
-        ),          
-        padding: EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Text(
-          status,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      );
-    }else{
-      return Container(height: 15.0, width: 20.0);
-    }
-  }
-
   void _verifyDialog(String action){
       showDialog(
         context: context,
@@ -713,7 +587,7 @@ class _DetailInterfaceState extends State<DetailInterface> {
       var string = res.body;
       List dres = string.split(",");
       if (dres[0] == "success") {
-        print('in decline');        
+        print('in block');        
         Toast.show("Blocked", context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
         _onLogin(widget.admin.username, context);
         pr.dismiss();
